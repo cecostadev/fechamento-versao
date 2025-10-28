@@ -16,34 +16,59 @@
       <!-- Search -->
       <input type="text" id="searchTask" class="form-control search-bar" placeholder="Search tarefa...">
 
-      <!-- Lista (apenas visual) -->
+      <!-- Lista (clicável) -->
       <ul class="list-group" id="taskList">
-        <li class="list-group-item">1 - Separar tipos de deploy</li>
-        <li class="list-group-item">2 - Revisão/remoção de tarefas na versão eleita para deploy</li>
-        <li class="list-group-item">3 - Fechamento de scripts/SQL da versão</li>
-        <li class="list-group-item">4 - Sincronização com a Master</li>
-        <li class="list-group-item">5 - Fechamento de versão</li>
-        <li class="list-group-item">6 - Atualizar Wiki</li>
-        <li class="list-group-item">7 - Pipeline da última RC</li>
-        <li class="list-group-item">8 - Caminho do script de migrations (caso tenha)</li>
-        <li class="list-group-item">9 - Criar card GMUD</li>        
-        <li class="list-group-item">10 - Revisão pós deploy</li>
-        <li class="list-group-item">11 - Comunicação de atualização/criação de features pós deploy</li>
+        <li class="list-group-item task-item" data-task-id="1" data-field="projeto" data-requires-modal="true">
+          1 - Separar tipos de deploy
+        </li>
+        <li class="list-group-item task-item" data-task-id="2" data-field="" data-requires-modal="false">
+          2 - Revisão/remoção de tarefas na versão eleita para deploy
+        </li>
+        <li class="list-group-item task-item" data-task-id="3" data-field="" data-requires-modal="false">
+          3 - Fechamento de scripts/SQL da versão
+        </li>
+        <li class="list-group-item task-item" data-task-id="4" data-field="" data-requires-modal="false">
+          4 - Sincronização com a Master
+        </li>
+        <li class="list-group-item task-item" data-task-id="5" data-field="versao" data-requires-modal="true">
+          5 - Fechamento de versão
+        </li>
+        <li class="list-group-item task-item" data-task-id="6" data-field="" data-requires-modal="false">
+          6 - Atualizar Wiki
+        </li>
+        <li class="list-group-item task-item" data-task-id="7" data-field="pipeline" data-requires-modal="true">
+          7 - Pipeline da última RC
+        </li>
+        <li class="list-group-item task-item" data-task-id="8" data-field="migrations" data-requires-modal="true">
+          8 - Caminho do script de migrations (caso tenha)
+        </li>
+        <li class="list-group-item task-item" data-task-id="9" data-field="gmud" data-requires-modal="true">
+          9 - Criar card GMUD
+        </li>
+        <li class="list-group-item task-item" data-task-id="10" data-field="" data-requires-modal="false">
+          10 - Revisão pós deploy
+        </li>
+        <li class="list-group-item task-item" data-task-id="11" data-field="" data-requires-modal="false">
+          11 - Comunicação de atualização/criação de features pós deploy
+        </li>
       </ul>
 
-      <!-- Infos extras -->
-      <div class="mt-4">
+      <!-- Infos extras (readonly - só podem ser editados pelos modais) -->
+      <div class="mt-4 info">
         <label for="projeto" class="form-label">Projeto</label>
-        <input type="text" id="projeto" class="form-control" placeholder="Ex: SIAG 2.0">
+        <input type="text" id="projeto" class="form-control" placeholder="Ex: SIAG 2.0" readonly>
 
         <label for="versao" class="form-label mt-3">Versão do Deploy</label>
-        <input type="text" id="versao" class="form-control" placeholder="Ex: v2.1.0">
+        <input type="text" id="versao" class="form-control" placeholder="Ex: v2.1.0" readonly>
 
-        <label for="tarefas" class="form-label mt-3">Tarefas (Sprint)</label>
-        <textarea id="tarefas" class="form-control" rows="3" placeholder="Ex: Login, Relatórios, API..."></textarea>
+        <label for="pipeline" class="form-label mt-3">Pipeline da última RC</label>
+        <input type="text" id="pipeline" class="form-control" placeholder="Ex: https://pipeline.com/..." readonly>
+
+        <label for="migrations" class="form-label mt-3">Caminho do Script de Migrations</label>
+        <input type="text" id="migrations" class="form-control" placeholder="Ex: /scripts/migrations/v2.1.0.sql" readonly>
 
         <label for="gmud" class="form-label mt-3">GMUD</label>
-        <input type="text" id="gmud" class="form-control" placeholder="Ex: GMUD-1234">
+        <input type="text" id="gmud" class="form-control" placeholder="Ex: GMUD-1234" readonly>
       </div>
 
       <!-- Botão Exportar -->
@@ -54,7 +79,43 @@
   </div>
 </div>
 
+<!-- Modal para informar dados -->
+<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskModalLabel">Finalizar Tarefa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="taskDescription" class="fw-bold mb-3"></p>
+        
+        <!-- Select para tipos de deploy (item 1) -->
+        <div id="selectContainer" style="display: none;">
+          <label for="taskSelect" class="form-label">Selecione o tipo de deploy:</label>
+          <select id="taskSelect" class="form-control">
+            <option value="">Selecione...</option>
+            <option value="SIAG">SIAG</option>
+            <option value="PORTAL ESTABELECIMENTOS">PORTAL ESTABELECIMENTOS</option>
+          </select>
+        </div>
+        
+        <!-- Input text para outras tarefas -->
+        <div id="inputContainer">
+          <label for="taskInput" class="form-label">Informe o nome ou link relacionado:</label>
+          <input type="text" id="taskInput" class="form-control" placeholder="Ex: Siag, Portal, https://...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="confirmTask">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="js/script.js"></script>
 </body>
