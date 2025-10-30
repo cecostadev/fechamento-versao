@@ -71,15 +71,15 @@
         <input type="text" id="gmud" class="form-control" placeholder="Ex: GMUD-1234" readonly>
       </div>
 
-      <!-- Botão Exportar -->
+      <!-- Botão Concluir (Texto alterado) -->
       <div class="text-center mt-4">
-        <button id="exportExcel" class="btn btn-success">Exportar para Excel</button>
+        <button id="exportExcel" class="btn btn-success">Concluir</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal para informar dados -->
+<!-- Modal para informar dados (EXISTENTE) -->
 <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -89,7 +89,7 @@
       </div>
       <div class="modal-body">
         <p id="taskDescription" class="fw-bold mb-3"></p>
-        
+
         <!-- Select para tipos de deploy (item 1) -->
         <div id="selectContainer" style="display: none;">
           <label for="taskSelect" class="form-label">Selecione o tipo de deploy:</label>
@@ -99,7 +99,7 @@
             <option value="PORTAL ESTABELECIMENTOS">PORTAL ESTABELECIMENTOS</option>
           </select>
         </div>
-        
+
         <!-- Input text para outras tarefas -->
         <div id="inputContainer">
           <label for="taskInput" class="form-label">Informe o nome ou link relacionado:</label>
@@ -114,9 +114,28 @@
   </div>
 </div>
 
+<!-- NOVO: Modal para exibir a mensagem final de deploy -->
+<div class="modal fade" id="finalMessageModal" tabindex="-1" aria-labelledby="finalMessageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="finalMessageModalLabel">Informações para Deploy</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- O conteúdo da mensagem será inserido aqui. Usamos <pre> para preservar quebras de linha e espaços. -->
+        <pre id="finalMessageContent" style="white-space: pre-wrap; word-wrap: break-word;"></pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-primary" id="copyMessageButton">Copiar Mensagem</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>
